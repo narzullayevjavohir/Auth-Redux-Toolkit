@@ -15,8 +15,14 @@ const authSlice = createSlice({
     loginUserStart: (state) => {
       state.isLoading = true;
     },
-    loginUserSuccess: (state) => {},
-    loginUserFailure: (state) => {},
+    loginUserSuccess: (state) => {
+      state.loggedIn = true;
+      state.isLoading = false;
+    },
+    loginUserFailure: (state) => {
+      state.error = "error";
+      state.isLoading = false;
+    },
 
     //register
     registerUserStart: (state) => {
@@ -37,6 +43,8 @@ export default authSlice.reducer;
 
 export const {
   loginUserStart,
+  loginUserSuccess,
+  loginUserFailure,
   registerUserStart,
   registerUserSuccess,
   registerUserFailure,
