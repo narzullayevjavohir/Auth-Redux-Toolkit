@@ -3,9 +3,9 @@ import { logo } from "../assets/constants";
 import Input from "./ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  loginUserFailure,
-  loginUserStart,
-  loginUserSuccess,
+  signUserFailure,
+  signUserStart,
+  signUserSuccess,
 } from "../slices/auth";
 import AuthService from "../service/auth";
 
@@ -18,14 +18,14 @@ const Login = () => {
 
   const loginHendler = async (e) => {
     e.preventDefault();
-    dispatch(loginUserStart());
+    dispatch(signUserStart());
     const user = { email, password };
     try {
       const response = await AuthService.userLogin(user);
       console.log(response);
-      dispatch(loginUserSuccess());
+      dispatch(signUserSuccess(response.user));
     } catch (error) {
-      dispatch(loginUserFailure());
+      dispatch(signUserFailure(error.response.data.errors));
     }
   };
 

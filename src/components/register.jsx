@@ -3,9 +3,9 @@ import { logo } from "../assets/constants";
 import Input from "./ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  registerUserFailure,
-  registerUserStart,
-  registerUserSuccess,
+  signUserFailure,
+  signUserStart,
+  signUserSuccess,
 } from "../slices/auth";
 import AuthService from "../service/auth";
 
@@ -19,9 +19,9 @@ const Register = () => {
 
   const registerHendler = async (e) => {
     e.preventDefault();
-    dispatch(registerUserStart());
+    dispatch(signUserStart());
     try {
-      dispatch(registerUserSuccess());
+      dispatch(signUserSuccess());
       const user = {
         username: name,
         email,
@@ -31,7 +31,8 @@ const Register = () => {
       console.log(response);
       console.log(user);
     } catch (error) {
-      dispatch(registerUserFailure());
+      console.log(error.response.data);
+      dispatch(signUserFailure(error.response.data.errors));
     }
   };
   return (
@@ -64,7 +65,9 @@ const Register = () => {
       />
       <button
         onClick={registerHendler}
-        className="bg-blue-500 px-6 py-3 rounded mt-5 text-white"
+        type="submit"
+        className="bg-blue-500 px-6 py-3 rounded mt-5 text-white disabled:bg-blue-300"
+        disabled={isLoading}
       >
         {isLoading ? "loading..." : "Register"}
       </button>
